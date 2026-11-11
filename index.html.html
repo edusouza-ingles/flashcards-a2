@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2 + Travel Vocabulary Flashcards</title>
+<style>
+:root{--navy:#173653;--teal:#0d9488;--mint:#dff7ef;--ink:#183247;--muted:#647789;--paper:#f4f8fb;--line:#dce7ee;--white:#fff;--gold:#f3b942}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+button,input,select{font:inherit}
+.app{max-width:1100px;margin:0 auto;padding:20px}
+header{background:linear-gradient(120deg,#173653,#245879);color:white;padding:20px 24px;border-radius:20px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:18px;min-width:0}
+.brand-logo{width:88px;height:88px;object-fit:cover;border-radius:50%;border:3px solid rgba(255,255,255,.9);flex:0 0 auto}
+header .brand-copy{min-width:0}
+button:active{filter:brightness(.86);transform:translateY(1px) scale(.97)}
+.icon-btn.on{box-shadow:0 0 0 3px #84d8c7}.danger.on{box-shadow:0 0 0 3px #f0b4a8}.secondary.on{background:#cfeee6;color:#087b70}.icon-btn{width:48px;height:46px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:24px;line-height:1}
+.nav button{font-size:38px;min-height:58px;padding:4px 12px}
+@media(max-width:760px){.brand-logo{width:68px;height:68px}.brand{gap:12px}}
+header h1{font-size:clamp(24px,4vw,34px);margin:0 0 7px}
+header p{margin:0;color:#d8e9f3;line-height:1.5}
+.level{background:#25c6a4;color:#083f3a;border-radius:12px;padding:10px 15px;font-weight:800;white-space:nowrap}
+.toolbar{display:grid;grid-template-columns:1fr 1.3fr auto;gap:10px;margin-bottom:16px}
+select,input{width:100%;border:1px solid var(--line);background:white;border-radius:12px;padding:13px;color:var(--ink);outline:none}
+button{border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;transition:.15s}
+@media(hover:hover){button:hover{filter:brightness(.97);transform:translateY(-1px)}}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #84d8c7;outline-offset:2px}
+.primary{background:var(--teal);color:white}.secondary{background:#e8f0f5;color:var(--navy)}.gold{background:#fff1cc;color:#75500a}.danger{background:#fff0ed;color:#9c3e30}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat{background:white;border:1px solid var(--line);border-radius:14px;padding:13px 16px}
+.stat strong{display:block;font-size:23px;color:var(--navy)}.stat span{font-size:12px;color:var(--muted)}
+.progress-wrap{height:9px;background:#e3ebf0;border-radius:99px;overflow:hidden;margin:0 0 18px}
+.progress{height:100%;width:0;background:linear-gradient(90deg,#0d9488,#57c7a9);transition:width .25s}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:16px;align-items:start}
+.main-card{background:white;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 5px 20px #193b5210}
+.card-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;color:var(--muted);font-size:13px}
+.pill{background:#e7f7f3;color:#087b70;border-radius:99px;padding:7px 11px;font-weight:700}
+.flip-card{perspective:1000px;min-height:310px;cursor:pointer}
+.flip-inner{position:relative;-webkit-transform-style:preserve-3d;min-height:310px;transform-style:preserve-3d;transition:transform .55s}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px}
+.front{background:linear-gradient(145deg,#e9f4ff,#f3f8ff);border:1px solid #d5e8f8}
+.back{background:linear-gradient(145deg,#e4f8f1,#f3fcf8);border:1px solid #cceee2;transform:rotateY(180deg)}
+.word{font-size:clamp(32px,6vw,48px);font-weight:800;letter-spacing:.5px;color:var(--navy);margin:10px 0}
+.translation{font-size:26px;font-weight:800;color:#087b70;margin:8px 0}
+.example{font-size:18px;line-height:1.5;margin:8px 0;color:#24465c}
+.example-pt{color:var(--muted);font-size:14px}
+.hint{color:var(--muted);font-size:13px;margin-top:18px}
+.card-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:16px 0 6px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+.nav button{flex:1}
+.side{background:white;border:1px solid var(--line);border-radius:18px;padding:18px}
+.side h3{margin:0 0 12px;font-size:17px}
+.side p{font-size:13px;color:var(--muted);line-height:1.5}
+.category-list{display:flex;flex-direction:column;gap:7px}
+.cat-btn{text-align:left;background:#f3f7fa;color:var(--ink);padding:10px 12px;display:flex;justify-content:space-between;gap:8px}
+.cat-btn.active{background:#dff7ef;color:#087b70;box-shadow:inset 3px 0 #0d9488}
+.cat-btn small{color:var(--muted)}
+.empty{padding:40px 15px;text-align:center;color:var(--muted)}
+.footer-note{font-size:12px;color:var(--muted);line-height:1.5;margin:16px 3px 4px}
+.mobile-cats{display:none}
+@media(max-width:760px){
+ .app{padding:12px}header{padding:20px;border-radius:16px;align-items:flex-start}header p{font-size:14px}.level{font-size:12px;padding:8px 10px}
+ .toolbar{grid-template-columns:1fr 1fr}.toolbar input{grid-column:1/-1}
+ .stage{grid-template-columns:1fr}.side{order:2}.category-list{display:grid;grid-template-columns:1fr 1fr}
+ .flip-card,.flip-inner{min-height:285px}.stats{gap:7px}.stat{padding:10px}.stat strong{font-size:20px}.stat span{font-size:11px}
+}
+@media(max-width:420px){.level{display:none}.toolbar{grid-template-columns:1fr}.toolbar input{grid-column:auto}.category-list{grid-template-columns:1fr 1fr}.face{padding:18px}.example{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="brand">
+  <img class="brand-logo" alt="Logo Teacher Edu Souza" width="88" height="88" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAWfmNhQlgAABZ+anVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAFlhqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOjhhMjUwZDliLTMwOWMtNDFiMi1iMTE4LTJlNGUyNjdjYTZkOQAAAAOTanVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAAuGp1bWIAAABEanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5pbmdyZWRpZW50LnYzAAAAABhjMnNo33fJWjyuslHysj2E00zXAQAAAGxjYm9yo2lkYzpmb3JtYXRpaW1hZ2UvcG5namluc3RhbmNlSUR4LHhtcDppaWQ6ZjY5MjFlOWUtM2RmNC00NjA0LWE4OTMtMGIzY2YxYTM5YWNibHJlbGF0aW9uc2hpcGhwYXJlbnRPZgAAAeJqdW1iAAAAQWp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuYWN0aW9ucy52MgAAAAAYYzJzaFuVmjPlc/JEA2ABMh+GMgUAAAGZY2JvcqJnYWN0aW9uc4KiZmFjdGlvbmtjMnBhLm9wZW5lZGpwYXJhbWV0ZXJzoWtpbmdyZWRpZW50c4GiY3VybHgtc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5pbmdyZWRpZW50LnYzZGhhc2hYIJU7qc6hIDtOWz1N29CW4gVAUPQqw2ZxLDx/Pe1yPqMKpGZhY3Rpb254HWNvbS5hbnRocm9waWMuY2xhdWRlLnByb3ZpZGVkanBhcmFtZXRlcnOheB9jb20uYW50aHJvcGljLm9yaWdpbi1jb25maWRlbmNlZ3Vua25vd25rZGVzY3JpcHRpb254ZkNsYXVkZSBwcm92aWRlZCB0aGlzIGZpbGUgYXQgdGhlIHJlcXVlc3Qgb2YgYSB1c2VyIGFuZCBtYXkgaGF2ZSBjcmVhdGVkIG9yIG1vZGlmaWVkIHRoZSBmaWxlIGNvbnRlbnRzLm1zb2Z0d2FyZUFnZW50oWRuYW1lZkNsYXVkZXJhbGxBY3Rpb25zSW5jbHVkZWT1AAAAyGp1bWIAAABAanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5oYXNoLmRhdGEAAAAAGGMyc2jBwSXJ+K2zWrXppuBbXjl2AAAAgGNib3KlY2FsZ2ZzaGEyNTZjcGFkTQAAAAAAAAAAAAAAAABkaGFzaFggzsmTYCCKHi/TBEylXlqAAtRwxOp6WTDaRlSHEPI3OUdkbmFtZW5qdW1iZiBtYW5pZmVzdGpleGNsdXNpb25zgaJlc3RhcnQYIWZsZW5ndGgZFooAAAI+anVtYgAAACdqdW1kYzJjbAARABCAAACqADibcQNjMnBhLmNsYWltLnYyAAAAAg9jYm9ypWNhbGdmc2hhMjU2aXNpZ25hdHVyZXhNc2VsZiNqdW1iZj0vYzJwYS91cm46YzJwYTo4YTI1MGQ5Yi0zMDljLTQxYjItYjExOC0yZTRlMjY3Y2E2ZDkvYzJwYS5zaWduYXR1cmVqaW5zdGFuY2VJRHgseG1wOmlpZDpiNGFkM2U0OC01OTc4LTRiNWItYTUxZS0yZWU3MTI0NTUwMTRyY3JlYXRlZF9hc3NlcnRpb25zg6JjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgglTupzqEgO05bPU3b0JbiBUBQ9CrDZnEsPH897XI+owqiY3VybHgqc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5hY3Rpb25zLnYyZGhhc2hYILy/BoA0xKs7kMKzQZz+P41hOB7fanOhQ/aURyIlwGJQomN1cmx4KXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaGFzaC5kYXRhZGhhc2hYILmLtekzYRLdW6JIFhaLJ6xQfQwqtaBrkFBqSK2yJ/MWdGNsYWltX2dlbmVyYXRvcl9pbmZvo2RuYW1lb0FudGhyb3BpYyBGaWxlc2d2ZXJzaW9uZTEuMC4wa3NwZWNWZXJzaW9uZTIuNC4wAAAQOGp1bWIAAAAoanVtZGMyY3MAEQAQgAAAqgA4m3EDYzJwYS5zaWduYXR1cmUAAAAQCGNib3LShFkCEqIBJhghWQIKMIICBjCCAY2gAwIBAgIUQOWgCu7COdC+uIP6BkIFPWdVEwAwCgYIKoZIzj0EAwMwSTEXMBUGA1UEChMOQW50aHJvcGljLCBQQkMxLjAsBgNVBAMTJUFudGhyb3BpYyBDb250ZW50IENyZWRlbnRpYWxzIFJvb3QgQ0EwHhcNMjYwODA3MTg0MzU2WhcNMjgwODA2MTk0MzU2WjBEMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEpMCcGA1UEAxMgQW50aHJvcGljIENsYXVkZSBDb250ZW50IFNpZ25pbmcwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASYegpry1AYBRTVNL1CpTlbROnY3dey+UrsF9C3phYrATN3ZHf93Mo8RQN0KOUuOn19P4oWNFWe5n2/She9N7eTo1gwVjAOBgNVHQ8BAf8EBAMCB4AwFQYDVR0lBA4wDAYKKwYBBAGD6F4CATAMBgNVHRMBAf8EAjAAMB8GA1UdIwQYMBaAFM5R4gSBTmRbI/jjxM+aPpzB11zCMAoGCCqGSM49BAMDA2cAMGQCMDFzHRSeAXrSy1WOzkbhPZ6Km2wGTmZ/2gK18k8BQGXyqz88Rdrz6CTX9flAnYNVxgIwcF9c3fVhqmJKpi+UhasNUMko69cyX6STPfta3Q8EjyzDjzoyrol46FP6VFHhvUcJoWNwYWRZDZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2WEC8cttmBgShICfXwRBUTuH4Nmit2GIByCyyJXtCCcxVFXteJIi5IgUV4InnlcFjgEQvMMfVb3XmcGPXnkFtNBpE+IdejAAAAf5QTFRFwSxLna3AGCNPSxMbXFpkXXCUw0JbhSwzkTxGtqajNkJaJE2AwCE/GyY9TUE/XYCbpGRe14+g3MW+3+Df/f39ADFqSDpEuCA+/NLDuSJBJhkkNSg0txg4WERM98m7RSw4STM8ACplCgYM9szDtLfDZUhQPTRBOzE86+jpx2pw7retiWdr16arblRZJhYcz3R2jYeRdGZsq6ewkHV2GxIazneK0dXZ56OcvB5A6qqj04aLk5iqdVxi0ZeUy8fM1LWvtrS7rYiHuMXPSWmPACZcr5aT5pqV/uPSsGdrVXSWxlhvHRYhk6W5c3iK09vil5SZ+tC+jlZZr3d4ujhTWVRZz6Sb1ZelG0Nz2+PnbCgycImlNVqEenR6Jkp3iXyEL1R7p5yj4rrDiUhPKwsUbjtDtkZXcDY76t3hepOsklxjr1daybzBs1lnTBslWFlnwCNDaIOdrIJ85oqLhzY6qXyCw0ljyW2B0IF9tQstvEpjPWGJaR0kj42hkWFdl4J6wBw8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxF24swAAAIB0Uk5T//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8VB6TqAAAlz0lEQVR42s2diV/a2tb3OdNz732e553TGLJJCGAkJAQIUJQZrChWrUO1ra21HrXt6Xw6nPGe4V9/11o7I5Pa3qH7c44oWvhm5beGPRK79kmtJvgtk4jHl5biS3F8wIY/uS3xIvi75dS1T22xfyT00hzBInQC21J8bg4fP2toRCTKuXicP06Anv+8oOdcTJcUroEaXsi3n7GlwcRIm3h8585jjk2mj0B/bpYGaEROxAz4+c5tTv2ZQyNi8enTO29+EATANq7jJcyRpj9n6MRj/M7IC0L5BJ+6yTXyGUP/DDa9KQg9g360Hfxd94cE3YDPEdpANdy5GU/EDaGnl/GpjiaWXGl/ppY2nG18eFrPgTIGzEbssqbRo9EA1/ws5dFJ6gNfKoMk4BpCRVNEpwc/S9c/U00DqOKU3R8HoijqZaMlKqLodFDvT90/M/6tySUFDR5u+QY81hQNuEtdFHIPqDWnpCiKriuVTmDmk55g/Pqp1KmPg05dW7+//uBhJHo4mq4oaOIKGLzWEnVRgScUu6WLJf/Peooh3Lv7adSpX2PXPuoVlule3woxgzNqaFgdwO3KSRm0gU1XdKelKCUeB4VasgIC+STka18IseUbV6dO3SB1jrYKmRbBdduxbF3n8tBbji3qAzd8JyGibH60qVOpdVBkTBCa11Y+Atqxj0sn5XIPWrlcPhkMBuWyTcCIDg8tx2nRRYBELFsRWxhIhFJSBIl/95HUqYfz+CIALdxbT13tRVJ3DeEFSyaTIlEGzTM0Zwd7t1x7OzbIpgJq6mqiAg9bKfdeX00Z9/ntivHY+eiK/3wTAkESvA6obdtuuQ0YPVHwSwBuegBjw8+iAtLQRbEFb42iTF27exVrpR4suzqMuY/3r3jVtzA0i9QI0rYty6pU/uj3KxWS84j9Sdy6WDFKEBodcIkHqWs3bhnzl44kqWtN33k8aKF2YyV1BX94ZFCiFr3mmddu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">
+  <div class="brand-copy"><h1>English A2 · Travel Flashcards</h1><p>Vocabulário A2 e inglês para viagem, uma palavra de cada vez.</p></div>
+ </div>
+ <div class="level">A2 + VIAGEM</div>
+</header>
+
+<div class="toolbar">
+ <select id="categorySelect" aria-label="Escolher categoria"></select>
+ <input id="search" type="search" placeholder="Buscar palavra em inglês ou português..." aria-label="Buscar vocabulário">
+ <button class="secondary" id="shuffleBtn" title="Embaralhar" aria-label="Embaralhar">⤨ Embaralhar</button>
+</div>
+
+<div class="stats">
+ <div class="stat"><strong id="totalCount">0</strong><span>Cartões nesta seleção</span></div>
+ <div class="stat"><strong id="knownCount">0</strong><span>Marcados como aprendidos</span></div>
+ <div class="stat"><strong id="reviewCount">0</strong><span>Para revisar</span></div>
+</div>
+<div class="progress-wrap"><div class="progress" id="progress"></div></div>
+
+<div class="stage">
+ <main class="main-card">
+  <div class="card-meta"><span id="position">Cartão 1 de 1</span><span class="pill" id="categoryPill">Essenciais</span></div>
+  <div id="cardArea">
+   <div class="flip-card" id="flipCard" role="button" tabindex="0" aria-label="Virar cartão para ver a tradução">
+    <div class="flip-inner">
+     <section class="face front">
+      
+      <div class="word" id="frontWord">HELLO</div>
+      
+     </section>
+     <section class="face back">
+      
+      <div class="translation" id="backTranslation">Olá</div>
+      <div class="example" id="example">Hello! How are you?</div>
+      <div class="example-pt" id="examplePt">Olá! Como você está?</div>
+     </section>
+    </div>
+   </div>
+  </div>
+  <div class="card-actions">
+   <button class="secondary icon-btn" id="audioBtn" title="Ouvir pronúncia" aria-label="Ouvir pronúncia">🔊</button>
+   <button class="gold icon-btn" id="flipBtn" title="Virar cartão" aria-label="Virar cartão">↻</button>
+  </div>
+  <div class="card-actions">
+   <button class="danger icon-btn" id="reviewBtn" title="Ainda não sei" aria-label="Ainda não sei">✕</button>
+   <button class="primary icon-btn" id="knownBtn" title="Já aprendi" aria-label="Já aprendi">✓</button>
+  </div>
+  <div class="nav">
+   <button class="secondary" id="prevBtn" title="Cartão anterior" aria-label="Cartão anterior">←</button>
+   <button class="secondary" id="nextBtn" title="Próximo cartão" aria-label="Próximo cartão">→</button>
+  </div>
+  <p class="footer-note">Dica: tente lembrar o significado antes de virar o cartão. Depois, leia a frase de exemplo em voz alta.</p>
+ </main>
+ <aside class="side">
+  <h3>📚 Categorias</h3>
+  <div class="category-list" id="categoryList"></div>
+  <p>Escolha um tema para estudar um grupo específico de palavras.</p>
+  <button class="secondary" style="width:100%;margin-top:8px" id="resetBtn" title="Limpar meu progresso" aria-label="Limpar meu progresso">⌫ Limpar progresso</button>
+ </aside>
+</div>
+<p class="footer-note">O progresso é salvo neste navegador quando o armazenamento local está disponível. A pronúncia usa a voz em inglês instalada no navegador/dispositivo.</p>
+</div>
+
+<script>
+const cards = [
+["airport", "Aeroporto", "I am at the airport.", "Estou no aeroporto.", "Aeroporto e voo"],
+["plane", "Avião", "I am on the plane.", "Estou no avião.", "Aeroporto e voo"],
+["flight", "Voo", "My flight is at nine.", "Meu voo é às nove.", "Aeroporto e voo"],
+["ticket", "Passagem / bilhete", "I have a ticket to Rio.", "Eu tenho uma passagem para o Rio.", "Aeroporto e voo"],
+["passport", "Passaporte", "Do you have your passport?", "Você está com o seu passaporte?", "Aeroporto e voo"],
+["visa", "Visto", "Do I need a visa?", "Eu preciso de visto?", "Aeroporto e voo"],
+["suitcase", "Mala", "My suitcase is big.", "Minha mala é grande.", "Aeroporto e voo"],
+["luggage", "Bagagem", "Where is my luggage?", "Onde está a minha bagagem?", "Aeroporto e voo"],
+["check in", "Fazer check-in", "I want to check in.", "Eu quero fazer o check-in.", "Aeroporto e voo"],
+["boarding pass", "Cartão de embarque", "Here is my boarding pass.", "Aqui está o meu cartão de embarque.", "Aeroporto e voo"],
+["gate", "Portão de embarque", "Go to gate five.", "Vá para o portão cinco.", "Aeroporto e voo"],
+["seat", "Assento / lugar", "I have a seat by the window.", "Eu tenho um assento perto da janela.", "Aeroporto e voo"],
+["delayed", "Atrasado (voo)", "The flight is delayed.", "O voo está atrasado.", "Aeroporto e voo"],
+["arrive", "Chegar", "We arrive at ten.", "Nós chegamos às dez.", "Aeroporto e voo"],
+["leave", "Sair / partir", "The bus leaves at eight.", "O ônibus sai às oito.", "Aeroporto e voo"],
+["customs", "Alfândega", "Customs is over there.", "A alfândega fica ali.", "Aeroporto e voo"],
+["pick up", "Pegar / buscar", "I pick up my bag at the airport.", "Eu pego minha mala no aeroporto.", "Aeroporto e voo"],
+["trip", "Viagem", "I have a trip next week.", "Eu tenho uma viagem na próxima semana.", "Viagem geral"],
+["vacation", "Férias", "I am on vacation.", "Estou de férias.", "Viagem geral"],
+["tourist", "Turista", "I am a tourist here.", "Eu sou turista aqui.", "Viagem geral"],
+["map", "Mapa", "I need a map.", "Eu preciso de um mapa.", "Viagem geral"],
+["tour", "Passeio / tour", "I want a tour of the city.", "Eu quero um passeio pela cidade.", "Viagem geral"],
+["guide", "Guia", "The guide is nice.", "O guia é simpático.", "Viagem geral"],
+["souvenir", "Lembrancinha", "I want a souvenir.", "Eu quero uma lembrancinha.", "Viagem geral"],
+["abroad", "No exterior", "I want to go abroad.", "Eu quero ir para o exterior.", "Viagem geral"],
+["photo", "Foto", "Can you take a photo, please?", "Você pode tirar uma foto, por favor?", "Viagem geral"],
+["visit", "Visitar", "I want to visit Rio.", "Eu quero visitar o Rio.", "Viagem geral"],
+["hotel", "Hotel", "The hotel is on this street.", "O hotel fica nesta rua.", "Hotel"],
+["reservation", "Reserva", "I have a reservation.", "Eu tenho uma reserva.", "Hotel"],
+["book", "Reservar", "I want to book a room.", "Eu quero reservar um quarto.", "Hotel"],
+["single room", "Quarto de solteiro", "I want a single room.", "Eu quero um quarto de solteiro.", "Hotel"],
+["double room", "Quarto de casal", "I want a double room.", "Eu quero um quarto de casal.", "Hotel"],
+["stay", "Ficar / hospedar-se", "I stay for two nights.", "Eu fico duas noites.", "Hotel"],
+["check out", "Fazer check-out", "I check out at twelve.", "Eu faço o check-out ao meio-dia.", "Hotel"],
+["reception", "Recepção", "Please call reception.", "Por favor, ligue para a recepção.", "Hotel"],
+["key card", "Cartão-chave", "Here is your key card.", "Aqui está o seu cartão-chave.", "Hotel"],
+["floor", "Andar", "My room is on the first floor.", "Meu quarto fica no primeiro andar.", "Hotel"],
+["elevator", "Elevador", "Where is the elevator?", "Onde fica o elevador?", "Hotel"],
+["Wi-Fi", "Wi-Fi", "What is the Wi-Fi password?", "Qual é a senha do Wi-Fi?", "Hotel"],
+["towel", "Toalha", "I need a towel, please.", "Eu preciso de uma toalha, por favor.", "Hotel"],
+["included", "Incluído", "Is breakfast included?", "O café da manhã está incluído?", "Hotel"],
+["air conditioning", "Ar-condicionado", "Is there air conditioning?", "Tem ar-condicionado?", "Hotel"],
+["taxi", "Táxi", "I need a taxi, please.", "Eu preciso de um táxi, por favor.", "Transporte"],
+["subway", "Metrô", "Where is the subway?", "Onde fica o metrô?", "Transporte"],
+["station", "Estação", "Where is the train station?", "Onde fica a estação de trem?", "Transporte"],
+["stop", "Ponto / parada", "This is my stop.", "Esta é a minha parada.", "Transporte"],
+["platform", "Plataforma", "The train is at platform two.", "O trem está na plataforma dois.", "Transporte"],
+["one-way", "Só ida", "One-way ticket, please.", "Uma passagem só de ida, por favor.", "Transporte"],
+["round trip", "Ida e volta", "A round trip ticket, please.", "Uma passagem de ida e volta, por favor.", "Transporte"],
+["schedule", "Horário", "I need the bus schedule.", "Eu preciso do horário dos ônibus.", "Transporte"],
+["rent", "Alugar", "I want to rent a car.", "Eu quero alugar um carro.", "Transporte"],
+["driver", "Motorista", "The bus driver is nice.", "O motorista do ônibus é simpático.", "Transporte"],
+["traffic", "Trânsito", "There is a lot of traffic.", "Tem muito trânsito.", "Transporte"],
+["late", "Atrasado", "The bus is late.", "O ônibus está atrasado.", "Transporte"],
+["get on", "Subir / embarcar", "I get on the bus here.", "Eu subo no ônibus aqui.", "Transporte"],
+["get off", "Descer", "I get off at the next stop.", "Eu desço na próxima parada.", "Transporte"],
+["left", "Esquerda", "Turn left.", "Vire à esquerda.", "Direções e lugares"],
+["right", "Direita", "Turn right.", "Vire à direita.", "Direções e lugares"],
+["straight", "Em frente", "Go straight.", "Siga em frente.", "Direções e lugares"],
+["corner", "Esquina", "The bank is on the corner.", "O banco fica na esquina.", "Direções e lugares"],
+["next to", "Ao lado de", "The bank is next to the hotel.", "O banco fica ao lado do hotel.", "Direções e lugares"],
+["across from", "Em frente a", "The hotel is across from the park.", "O hotel fica em frente ao parque.", "Direções e lugares"],
+["behind", "Atrás de", "The park is behind the hotel.", "O parque fica atrás do hotel.", "Direções e lugares"],
+["between", "Entre", "The bank is between the store and the hotel.", "O banco fica entre a loja e o hotel.", "Direções e lugares"],
+["far", "Longe", "Is it far?", "É longe?", "Direções e lugares"],
+["near", "Perto", "Is it near?", "É perto?", "Direções e lugares"],
+["lost", "Perdido", "I am lost.", "Estou perdido.", "Direções e lugares"],
+["block", "Quarteirão", "Walk two blocks.", "Ande dois quarteirões.", "Direções e lugares"],
+["cross", "Atravessar", "Cross the street here.", "Atravesse a rua aqui.", "Direções e lugares"],
+["bridge", "Ponte", "Go over the bridge.", "Vá pela ponte.", "Direções e lugares"],
+["address", "Endereço", "This is the address.", "Este é o endereço.", "Direções e lugares"],
+["museum", "Museu", "The museum is open today.", "O museu está aberto hoje.", "Direções e lugares"],
+["beach", "Praia", "The beach is near the hotel.", "A praia fica perto do hotel.", "Direções e lugares"],
+["menu", "Cardápio", "Can I see the menu, please?", "Posso ver o cardápio, por favor?", "Restaurante"],
+["waiter", "Garçom", "Excuse me, waiter!", "Com licença, garçom!", "Restaurante"],
+["table for two", "Mesa para dois", "A table for two, please.", "Uma mesa para dois, por favor.", "Restaurante"],
+["order", "Pedir", "I want to order.", "Eu quero fazer o pedido.", "Restaurante"],
+["bill", "Conta", "The bill, please.", "A conta, por favor.", "Restaurante"],
+["tip", "Gorjeta", "Is the tip included?", "A gorjeta está incluída?", "Restaurante"],
+["chicken", "Frango", "I want chicken and rice.", "Eu quero frango com arroz.", "Restaurante"],
+["meat", "Carne", "I do not eat meat.", "Eu não como carne.", "Restaurante"],
+["fish", "Peixe", "I like fish.", "Eu gosto de peixe.", "Restaurante"],
+["salad", "Salada", "I want a salad.", "Eu quero uma salada.", "Restaurante"],
+["soup", "Sopa", "The soup is hot.", "A sopa está quente.", "Restaurante"],
+["dessert", "Sobremesa", "What is the dessert?", "Qual é a sobremesa?", "Restaurante"],
+["juice", "Suco", "I want orange juice.", "Eu quero suco de laranja.", "Restaurante"],
+["glass", "Copo", "A glass of water, please.", "Um copo de água, por favor.", "Restaurante"],
+["spicy", "Picante", "Is it spicy?", "É picante?", "Restaurante"],
+["vegetarian", "Vegetariano", "I am vegetarian.", "Eu sou vegetariano.", "Restaurante"],
+["allergic", "Alérgico", "I am allergic to eggs.", "Sou alérgico a ovos.", "Restaurante"],
+["price", "Preço", "What is the price?", "Qual é o preço?", "Compras e dinheiro"],
+["cost", "Custar", "How much does it cost?", "Quanto custa?", "Compras e dinheiro"],
+["how much", "Quanto", "How much is this?", "Quanto custa isto?", "Compras e dinheiro"],
+["cheap", "Barato", "This bag is cheap.", "Esta bolsa é barata.", "Compras e dinheiro"],
+["expensive", "Caro", "This is too expensive.", "Isto é caro demais.", "Compras e dinheiro"],
+["discount", "Desconto", "Is there a discount?", "Tem desconto?", "Compras e dinheiro"],
+["sale", "Promoção", "The shoes are on sale.", "Os sapatos estão em promoção.", "Compras e dinheiro"],
+["cash", "Dinheiro vivo", "I pay in cash.", "Eu pago em dinheiro.", "Compras e dinheiro"],
+["credit card", "Cartão de crédito", "Can I pay by credit card?", "Posso pagar com cartão de crédito?", "Compras e dinheiro"],
+["change", "Troco", "Here is your change.", "Aqui está o seu troco.", "Compras e dinheiro"],
+["receipt", "Recibo / nota", "Can I have the receipt?", "Posso ficar com o recibo?", "Compras e dinheiro"],
+["size", "Tamanho", "What size is this?", "Qual é o tamanho disto?", "Compras e dinheiro"],
+["try on", "Experimentar", "Can I try on this shirt?", "Posso experimentar esta camisa?", "Compras e dinheiro"],
+["exchange", "Trocar / câmbio", "I want to exchange money.", "Eu quero trocar dinheiro.", "Compras e dinheiro"],
+["ATM", "Caixa eletrônico", "Where is the ATM?", "Onde fica o caixa eletrônico?", "Compras e dinheiro"],
+["gift", "Presente", "This is a gift for my mother.", "Este é um presente para a minha mãe.", "Compras e dinheiro"],
+["free", "Grátis", "The Wi-Fi is free.", "O Wi-Fi é grátis.", "Compras e dinheiro"],
+["doctor", "Médico", "I need a doctor.", "Eu preciso de um médico.", "Saúde e emergências"],
+["pharmacy", "Farmácia", "Where is the pharmacy?", "Onde fica a farmácia?", "Saúde e emergências"],
+["medicine", "Remédio", "I need medicine.", "Eu preciso de remédio.", "Saúde e emergências"],
+["sick", "Doente", "I am sick.", "Estou doente.", "Saúde e emergências"],
+["fever", "Febre", "I have a fever.", "Estou com febre.", "Saúde e emergências"],
+["headache", "Dor de cabeça", "I have a headache.", "Estou com dor de cabeça.", "Saúde e emergências"],
+["pain", "Dor", "I have pain here.", "Estou com dor aqui.", "Saúde e emergências"],
+["hurt", "Doer", "My leg hurts.", "Minha perna dói.", "Saúde e emergências"],
+["emergency", "Emergência", "This is an emergency!", "Isto é uma emergência!", "Saúde e emergências"],
+["police", "Polícia", "Call the police!", "Chame a polícia!", "Saúde e emergências"],
+["ambulance", "Ambulância", "Call an ambulance!", "Chame uma ambulância!", "Saúde e emergências"],
+["stolen", "Roubado", "My phone was stolen.", "Meu celular foi roubado.", "Saúde e emergências"],
+["wallet", "Carteira", "Where is my wallet?", "Onde está a minha carteira?", "Saúde e emergências"],
+["insurance", "Seguro", "I have travel insurance.", "Eu tenho seguro de viagem.", "Saúde e emergências"],
+["safe", "Seguro (sem perigo)", "Is this place safe?", "Este lugar é seguro?", "Saúde e emergências"],
+["Do you speak English?", "Você fala inglês?", "Excuse me, do you speak English?", "Com licença, você fala inglês?", "Frases úteis"],
+["I do not understand", "Eu não entendo", "I do not understand.", "Eu não entendo.", "Frases úteis"],
+["could you", "Você poderia", "Could you help me, please?", "Você poderia me ajudar, por favor?", "Frases úteis"],
+["I would like", "Eu gostaria", "I would like a coffee, please.", "Eu gostaria de um café, por favor.", "Frases úteis"],
+["slowly", "Devagar", "Please speak slowly.", "Por favor, fale devagar.", "Frases úteis"],
+["repeat", "Repetir", "Can you repeat that, please?", "Você pode repetir isso, por favor?", "Frases úteis"],
+["write down", "Anotar", "Please write down the address.", "Por favor, anote o endereço.", "Frases úteis"],
+["just a moment", "Um momento", "Just a moment, please.", "Um momento, por favor.", "Frases úteis"],
+["wait", "Esperar", "Please wait here.", "Por favor, espere aqui.", "Frases úteis"],
+["of course", "Claro / com certeza", "Can I sit here? Of course.", "Posso sentar aqui? Claro.", "Frases úteis"],
+["no problem", "Sem problema", "Thank you! No problem.", "Obrigado! Sem problema.", "Frases úteis"],
+["nice to meet you", "Prazer em conhecê-lo", "Nice to meet you!", "Prazer em conhecê-lo!", "Frases úteis"],
+["welcome", "Bem-vindo", "Welcome to Brazil!", "Bem-vindo ao Brasil!", "Frases úteis"],
+["enjoy", "Aproveitar", "Enjoy your trip!", "Aproveite a sua viagem!", "Frases úteis"],
+["decide", "Decidir", "I need to decide.", "Eu preciso decidir.", "Verbos A2"],
+["plan", "Planejar", "I plan to study today.", "Eu planejo estudar hoje.", "Verbos A2"],
+["invite", "Convidar", "I invite my friends to dinner.", "Eu convido meus amigos para jantar.", "Verbos A2"],
+["meet", "Encontrar (alguém)", "I meet my friend at five.", "Eu encontro meu amigo às cinco.", "Verbos A2"],
+["call", "Ligar / chamar", "I call my mother every day.", "Eu ligo para a minha mãe todos os dias.", "Verbos A2"],
+["send", "Enviar", "I send a message to my friend.", "Eu envio uma mensagem para meu amigo.", "Verbos A2"],
+["receive", "Receber", "I receive a gift.", "Eu recebo um presente.", "Verbos A2"],
+["bring", "Trazer", "Please bring water.", "Por favor, traga água.", "Verbos A2"],
+["carry", "Carregar / levar", "I carry my bag.", "Eu carrego minha bolsa.", "Verbos A2"],
+["borrow", "Pegar emprestado", "Can I borrow a pen?", "Posso pegar uma caneta emprestada?", "Verbos A2"],
+["forget", "Esquecer", "Do not forget your passport.", "Não esqueça o seu passaporte.", "Verbos A2"],
+["remember", "Lembrar", "I remember your name.", "Eu me lembro do seu nome.", "Verbos A2"],
+["choose", "Escolher", "I choose this one.", "Eu escolho este.", "Verbos A2"],
+["try", "Tentar", "Please try again.", "Por favor, tente de novo.", "Verbos A2"],
+["use", "Usar", "I use my phone every day.", "Eu uso meu celular todos os dias.", "Verbos A2"],
+["find", "Encontrar / achar", "I cannot find my bag.", "Eu não consigo achar minha mala.", "Verbos A2"],
+["lose", "Perder", "I lose my keys.", "Eu perco minhas chaves.", "Verbos A2"],
+["win", "Ganhar", "I want to win.", "Eu quero ganhar.", "Verbos A2"],
+["travel", "Viajar", "I travel with my family.", "Eu viajo com a minha família.", "Verbos A2"],
+["feel", "Sentir(-se)", "I feel good today.", "Eu me sinto bem hoje.", "Verbos A2"],
+["worry", "Preocupar-se", "Do not worry.", "Não se preocupe.", "Verbos A2"],
+["hope", "Esperar (ter esperança)", "I hope you like it.", "Eu espero que você goste.", "Verbos A2"],
+["believe", "Acreditar", "I believe you.", "Eu acredito em você.", "Verbos A2"],
+["explain", "Explicar", "Please explain this word.", "Por favor, explique esta palavra.", "Verbos A2"],
+["agree", "Concordar", "I agree with you.", "Eu concordo com você.", "Verbos A2"],
+["wear", "Vestir / usar (roupa)", "I wear blue shoes.", "Eu uso sapatos azuis.", "Verbos A2"],
+["take", "Pegar / levar", "I take the bus to work.", "Eu pego o ônibus para o trabalho.", "Verbos A2"],
+["busy", "Ocupado", "I am busy today.", "Estou ocupado hoje.", "Adjetivos A2"],
+["ready", "Pronto", "I am ready.", "Estou pronto.", "Adjetivos A2"],
+["early", "Cedo", "I wake up early.", "Eu acordo cedo.", "Adjetivos A2"],
+["fast", "Rápido", "The train is fast.", "O trem é rápido.", "Adjetivos A2"],
+["slow", "Lento", "The bus is slow.", "O ônibus é lento.", "Adjetivos A2"],
+["dangerous", "Perigoso", "This street is dangerous.", "Esta rua é perigosa.", "Adjetivos A2"],
+["comfortable", "Confortável", "The bed is comfortable.", "A cama é confortável.", "Adjetivos A2"],
+["crowded", "Lotado", "The bus is crowded.", "O ônibus está lotado.", "Adjetivos A2"],
+["quiet", "Silencioso / quieto", "The room is quiet.", "O quarto é silencioso.", "Adjetivos A2"],
+["noisy", "Barulhento", "The street is noisy.", "A rua é barulhenta.", "Adjetivos A2"],
+["dirty", "Sujo", "The table is dirty.", "A mesa está suja.", "Adjetivos A2"],
+["delicious", "Delicioso", "The food is delicious.", "A comida está deliciosa.", "Adjetivos A2"],
+["famous", "Famoso", "Rio is a famous city.", "O Rio é uma cidade famosa.", "Adjetivos A2"],
+["strong", "Forte", "The coffee is strong.", "O café é forte.", "Adjetivos A2"],
+["special", "Especial", "Today is a special day.", "Hoje é um dia especial.", "Adjetivos A2"],
+["important", "Importante", "This is important.", "Isto é importante.", "Adjetivos A2"],
+["different", "Diferente", "My house is different.", "Minha casa é diferente.", "Adjetivos A2"],
+["same", "Mesmo / igual", "We have the same bag.", "Nós temos a mesma bolsa.", "Adjetivos A2"],
+["possible", "Possível", "Is it possible?", "É possível?", "Adjetivos A2"],
+["friendly", "Simpático / amigável", "The people are friendly.", "As pessoas são simpáticas.", "Adjetivos A2"],
+["heavy", "Pesado", "My suitcase is heavy.", "Minha mala está pesada.", "Adjetivos A2"],
+["neighbor", "Vizinho", "My neighbor is nice.", "Meu vizinho é simpático.", "Cotidiano"],
+["job", "Emprego", "I have a new job.", "Eu tenho um emprego novo.", "Cotidiano"],
+["boss", "Chefe", "I like my boss.", "Eu gosto do meu chefe.", "Cotidiano"],
+["meeting", "Reunião", "I have a meeting at ten.", "Eu tenho uma reunião às dez.", "Cotidiano"],
+["appointment", "Consulta / compromisso", "I have an appointment today.", "Eu tenho um compromisso hoje.", "Cotidiano"],
+["message", "Mensagem", "I have a new message.", "Eu tenho uma nova mensagem.", "Cotidiano"],
+["homework", "Lição de casa", "I do my homework.", "Eu faço minha lição de casa.", "Cotidiano"],
+["exam", "Prova", "I have an exam tomorrow.", "Eu tenho uma prova amanhã.", "Cotidiano"],
+["class", "Aula", "My class is at eight.", "Minha aula é às oito.", "Cotidiano"],
+["shirt", "Camisa", "This shirt is new.", "Esta camisa é nova.", "Cotidiano"],
+["jacket", "Jaqueta", "I need a jacket.", "Eu preciso de uma jaqueta.", "Cotidiano"],
+["pants", "Calça", "These pants are big.", "Esta calça é grande.", "Cotidiano"],
+["shoes", "Sapatos", "I need new shoes.", "Eu preciso de sapatos novos.", "Cotidiano"],
+["umbrella", "Guarda-chuva", "Where is my umbrella?", "Onde está o meu guarda-chuva?", "Cotidiano"],
+["hobby", "Hobby / passatempo", "My hobby is music.", "Meu hobby é música.", "Cotidiano"],
+["movie", "Filme", "I want to see a movie.", "Eu quero ver um filme.", "Cotidiano"],
+["party", "Festa", "I go to a party on Friday.", "Eu vou a uma festa na sexta-feira.", "Cotidiano"],
+["kitchen", "Cozinha", "I cook in the kitchen.", "Eu cozinho na cozinha.", "Cotidiano"],
+["holiday", "Feriado", "Tomorrow is a holiday.", "Amanhã é feriado.", "Cotidiano"],
+["birthday", "Aniversário", "Today is my birthday.", "Hoje é o meu aniversário.", "Cotidiano"],
+["problem", "Problema", "I have a problem.", "Eu tenho um problema.", "Cotidiano"],
+["idea", "Ideia", "That is a good idea.", "Essa é uma boa ideia.", "Cotidiano"],
+["weather", "Tempo (clima)", "The weather is good today.", "O tempo está bom hoje.", "Tempo e clima"],
+["sunny", "Ensolarado", "It is sunny today.", "Hoje está ensolarado.", "Tempo e clima"],
+["cloudy", "Nublado", "It is cloudy today.", "Hoje está nublado.", "Tempo e clima"],
+["rainy", "Chuvoso", "It is a rainy day.", "É um dia chuvoso.", "Tempo e clima"],
+["windy", "Ventoso", "It is windy today.", "Hoje está ventando.", "Tempo e clima"],
+["storm", "Tempestade", "There is a storm today.", "Hoje tem uma tempestade.", "Tempo e clima"],
+["temperature", "Temperatura", "What is the temperature today?", "Qual é a temperatura hoje?", "Tempo e clima"],
+["summer", "Verão", "I like the summer.", "Eu gosto do verão.", "Tempo e clima"],
+["winter", "Inverno", "It is cold in the winter.", "Faz frio no inverno.", "Tempo e clima"],
+["soon", "Em breve", "See you soon!", "Até breve!", "Tempo e clima"],
+["later", "Mais tarde", "See you later!", "Até mais tarde!", "Tempo e clima"],
+["already", "Já", "I am already at the airport.", "Eu já estou no aeroporto.", "Tempo e clima"],
+["next", "Próximo", "The next bus is at six.", "O próximo ônibus é às seis.", "Tempo e clima"],
+["last", "Último", "This is the last day.", "Este é o último dia.", "Tempo e clima"],
+];
+
+const categories=["Todas as categorias",...new Set(cards.map(c=>c[4]))];
+let selectedCategory=categories[0], filtered=[...cards], index=0, flipped=false, isShuffled=false;
+let progressData={};
+try{progressData=JSON.parse(localStorage.getItem("a2-travel-vocab-progress")||"{}")||{}}catch(e){}
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem("a2-travel-vocab-progress",JSON.stringify(progressData))}catch(e){}}
+const keyOf=c=>c[0]+"|"+c[4];
+function status(c){return progressData[keyOf(c)]||""}
+function updateStats(){
+ const known=filtered.filter(c=>status(c)==="known").length;
+ const review=filtered.filter(c=>status(c)==="review").length;
+ $("totalCount").textContent=filtered.length;
+ $("knownCount").textContent=known;
+ $("reviewCount").textContent=review;
+ $("progress").style.width=(filtered.length?known/filtered.length*100:0)+"%";
+}
+function render(){
+ if(!filtered.length){$("cardArea").innerHTML='<div class="empty">Nenhuma palavra encontrada. Tente outra busca ou categoria.</div>';$("position").textContent="0 cartões";$("categoryPill").textContent="—";updateStats();return}
+ if(index>=filtered.length)index=0;
+ const c=filtered[index];flipped=false;
+ $("cardArea").innerHTML=`<div class="flip-card" id="flipCard" role="button" tabindex="0" aria-label="Virar cartão para ver a tradução"><div class="flip-inner"><section class="face front"><div class="word" id="frontWord"></div></section><section class="face back"><div class="translation" id="backTranslation"></div><div class="example" id="example"></div><div class="example-pt" id="examplePt"></div></section></div></div>`;
+ $("frontWord").textContent=c[0].toUpperCase();$("backTranslation").textContent=c[1];$("example").textContent=c[2];$("examplePt").textContent=c[3];
+ $("position").textContent=`Cartão ${index+1} de ${filtered.length}`;
+ $("categoryPill").textContent=c[4];
+ $("flipCard").addEventListener("click",flip);
+ $("flipCard").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();flip()}});
+ $("knownBtn").textContent="✓";
+ $("reviewBtn").textContent="✕";
+ $("knownBtn").classList.toggle("on",status(c)==="known");
+ $("reviewBtn").classList.toggle("on",status(c)==="review");
+ updateStats();renderCats();
+}
+function flip(){flipped=!flipped;$("flipCard")?.classList.toggle("flipped",flipped)}
+function setStatus(s){
+ if(!filtered.length)return;
+ const c=filtered[index],k=keyOf(c);
+ if(status(c)===s){delete progressData[k];save();render();return}
+ progressData[k]=s;save();
+ index=(index+1)%filtered.length;render();
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}}
+function applyFilters(){
+ const q=$("search").value.trim().toLowerCase();
+ filtered=cards.filter(c=>(selectedCategory===categories[0]||c[4]===selectedCategory)&&c.slice(0,4).join(" ").toLowerCase().includes(q));
+ if(isShuffled)shuffle(filtered);
+ index=0;render();
+}
+function renderCats(){
+ const list=$("categoryList");list.innerHTML="";
+ categories.forEach(cat=>{const b=document.createElement("button");b.className="cat-btn"+(cat===selectedCategory?" active":"");const count=cat===categories[0]?cards.length:cards.filter(c=>c[4]===cat).length;b.innerHTML=`<span>${cat}</span><small>${count}</small>`;b.addEventListener("click",()=>{selectedCategory=cat;$("categorySelect").value=cat;applyFilters()});list.appendChild(b)});
+}
+function speak(){
+ if(!filtered.length)return;
+ const c=filtered[index];
+ if(!("speechSynthesis" in window)){alert("A reprodução de voz não está disponível neste navegador.");return}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(c[0]);u.lang="en-US";u.rate=.86;speechSynthesis.speak(u);
+}
+$("categorySelect").innerHTML=categories.map(c=>`<option>${c}</option>`).join("");
+$("categorySelect").addEventListener("change",e=>{selectedCategory=e.target.value;applyFilters()});
+$("search").addEventListener("input",applyFilters);
+$("shuffleBtn").addEventListener("click",()=>{
+ isShuffled=!isShuffled;
+ $("shuffleBtn").classList.toggle("on",isShuffled);
+ $("shuffleBtn").textContent=isShuffled?"⤨ Embaralhado":"⤨ Embaralhar";
+ applyFilters();
+});
+$("flipBtn").addEventListener("click",flip);
+$("audioBtn").addEventListener("click",speak);
+$("knownBtn").addEventListener("click",()=>setStatus("known"));
+$("reviewBtn").addEventListener("click",()=>setStatus("review"));
+$("prevBtn").addEventListener("click",()=>{if(filtered.length){index=(index-1+filtered.length)%filtered.length;render()}});
+$("nextBtn").addEventListener("click",()=>{if(filtered.length){index=(index+1)%filtered.length;render()}});
+$("resetBtn").addEventListener("click",()=>{if(confirm("Tem certeza de que deseja apagar o progresso salvo neste navegador?")){progressData={};save();render()}});
+render();
+</script>
+</body>
+</html>
